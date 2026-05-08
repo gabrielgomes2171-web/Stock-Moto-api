@@ -1,0 +1,29 @@
+{
+  "name": "stock-moto-pai",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "start": "nodemon server.js"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabrielgomes2171-web/Stock-Moto-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/gabrielgomes2171-web/Stock-Moto-api/issues"
+  },
+  "homepage": "https://github.com/gabrielgomes2171-web/Stock-Moto-api#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mysql2": "^3.22.3",
+    "nodemon": "^3.1.14"
+  }
+}
