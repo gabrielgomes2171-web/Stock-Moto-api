@@ -3,6 +3,8 @@ package com.example.mobile.controller;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,13 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.mobile.entity.Estoque;
-import java.util.List;
 
 @RestController
 public class EstoqueController {
 
-    private List<Estoque> estoques = new ArrayList<>();
+    private final List<Estoque> estoques = new ArrayList<>();
 
     @PostMapping("/estoque")
     public ResponseEntity<String> criarEstoque(
@@ -28,7 +30,7 @@ public class EstoqueController {
         estoques.add(estoque);
 
         return ResponseEntity.status(201)
-                .body("Registro de estoque criado com sucesso!");
+                .body("Seu estoque foi criado com sucesso!");
     }
 
     @GetMapping("/estoque")
@@ -48,14 +50,12 @@ public class EstoqueController {
                 e.setquantidade(estoqueAtualizado.getquantidade());
                 e.setProduto(estoqueAtualizado.getProduto());
                 e.setAtualizado_em(LocalDateTime.now());
-                return ResponseEntity.ok(
-                        "Estoque atualizado com sucesso!");
+                return ResponseEntity.ok("Estoque atualizado!");
             }
         }
 
         return ResponseEntity.notFound().build();
     }
-
     @DeleteMapping("/estoque/{id}")
     public ResponseEntity<Void> deleteEstoque(
             @PathVariable Integer id) {
