@@ -24,8 +24,7 @@ public class ProdutosController {
     @PostMapping("/produtos")
     public ResponseEntity<String> criarProduto(@RequestBody Produtos produto) {
         produtos.add(produto);
-        return ResponseEntity.status(201)
-                .body("Seu produto foi enviado com sucesso!");
+        return ResponseEntity.status(201).body("Seu produto foi enviado com sucesso!");
     }
 
     @GetMapping("/produtos")
@@ -64,9 +63,7 @@ public class ProdutosController {
     public ResponseEntity<Void> deleteProduto(@PathVariable Integer id) {
 
         Iterator<Produtos> iterator = produtos.iterator();
-
         while (iterator.hasNext()) {
-
             Produtos p = iterator.next();
 
             if (p.getId().equals(id)) {
@@ -74,7 +71,6 @@ public class ProdutosController {
                 return ResponseEntity.noContent().build();
             }
         }
-
         return ResponseEntity.notFound().build();
     }
 }

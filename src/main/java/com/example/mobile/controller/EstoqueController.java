@@ -26,11 +26,8 @@ public class EstoqueController {
             @RequestBody Estoque estoque) {
 
         estoque.setAtualizado_em(LocalDateTime.now());
-
         estoques.add(estoque);
-
-        return ResponseEntity.status(201)
-                .body("Seu estoque foi criado com sucesso!");
+        return ResponseEntity.status(201).body("Seu estoque foi criado com sucesso!");
     }
 
     @GetMapping("/estoque")
