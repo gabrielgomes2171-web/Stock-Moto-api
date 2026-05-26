@@ -15,7 +15,7 @@ import com.example.mobile.entity.Usuarios;
 
 		@RestController
 		public class UsuarioController {
-			List<Usuarios> contas = new ArrayList<Usuarios>();
+			List<Usuarios> contas = new ArrayList<>();
 			
 			@PostMapping("/conta")
 			public ResponseEntity<String> criarConta(@RequestBody Usuarios conta) {
