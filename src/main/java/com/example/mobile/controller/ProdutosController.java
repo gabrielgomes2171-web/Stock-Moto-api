@@ -1,5 +1,4 @@
 package com.example.mobile.controller;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mobile.entity.Produtos;
-
 
 @RestController
 public class ProdutosController {

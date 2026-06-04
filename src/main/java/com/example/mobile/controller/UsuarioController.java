@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.example.mobile.entity.Usuarios;
 
 		@RestController
@@ -26,7 +27,7 @@ import com.example.mobile.entity.Usuarios;
 			@DeleteMapping("/conta/{id}")
 			public ResponseEntity<Void> deleteContato(@PathVariable int id) {
 			    for (Usuarios c : contas) {
-			        if (c.getId() == id) {
+			        if (c.getUid() == id) {
 			            contas.remove(c);
 			            return ResponseEntity.noContent().build();
 			        }
@@ -37,9 +38,10 @@ import com.example.mobile.entity.Usuarios;
 			@PutMapping("/conta/{id}")
 			public ResponseEntity<String> putConta(@PathVariable int id, @RequestBody Usuarios updatedConta) {
 			    for (Usuarios c : contas) {
-			        if (c.getId() == id) {
+			        if (c.getUid() == id) {
 			            c.setNome(updatedConta.getNome());
 			            c.setEmail(updatedConta.getEmail());
+			            c.setSenha(updatedConta.getSenha());
 			            return ResponseEntity.ok("Suas informações foram atualizadas!");
 			        }
 			    }
