@@ -1,7 +1,5 @@
 package com.example.mobile.controller;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -11,59 +9,98 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mobile.entity.Orcamentos;
+import com.example.mobile.service.OrcamentosService;
 
 @RestController
+@RequestMapping("/orcamento")
 public class OrcamentosController {
 
-	List<Orcamentos> orcamentos = new ArrayList<>();
+    private final OrcamentosService orcamentosService;
 
-	@PostMapping("/orcamento")
-	public ResponseEntity<String> criarOrcamento(@RequestBody Orcamentos orcamento) {
-		orcamento.setCriado_em(LocalDateTime.now());
-		orcamentos.add(orcamento);
-		return ResponseEntity.status(201).body("Seu orçamento foi criado!");
-	}
+    public OrcamentosController(
+            OrcamentosService orcamentosService) {
+				
+        this.orcamentosService = orcamentosService;
+    }
 
-	@DeleteMapping("/orcamento/{id}")
-	public ResponseEntity<Void> deleteOrcamento(@PathVariable int id) {
-		for (Orcamentos o : orcamentos) {
-			if (o.getId() == id) {
-				orcamentos.remove(o);
-				return ResponseEntity.noContent().build();
-			}
-		}
-		return ResponseEntity.notFound().build();
-	}
+    @PostMapping
+    public ResponseEntity<String> criarOrcamento(
+            @RequestBody Orcamentos orcamento) {
 
-	@PutMapping("/orcamento/{id}")
-	public ResponseEntity<String> putOrcamento(@PathVariable int id,
-			@RequestBody Orcamentos updatedOrcamento) {
+        try {
+            String id =
+                    orcamentosService.salvar(orcamento);
 
-		for (Orcamentos o : orcamentos) {
-			if (o.getId() == id) {
+            return ResponseEntity
+                    .status(201)
+                    .body("Orçamento criado com sucesso. ID: " + id);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body("Erro ao criar orçamento: " + e.getMessage());
+        }
+    }
 
-				o.setCliente_nome(updatedOrcamento.getCliente_nome());
-				o.setTelefone(updatedOrcamento.getTelefone());
-				o.setMoto(updatedOrcamento.getMoto());
-				o.setValidade(updatedOrcamento.getValidade());
-				o.setObservacoes(updatedOrcamento.getObservacoes());
-				o.setTotal(updatedOrcamento.getTotal());
-				o.setStatus(updatedOrcamento.getStatus());
-				o.setUsuario(updatedOrcamento.getUsuario());
-				o.setCriado_em(LocalDateTime.now());
+    @GetMapping
+    public ResponseEntity<List<Orcamentos>> listarOrcamentos() {
 
-				return ResponseEntity.ok("Orçamento atualizado!");
-			}
-		}
+        try {
+            return ResponseEntity.ok(
+                    orcamentosService.listarTodos());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
-		return ResponseEntity.notFound().build();
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<Orcamentos> buscarOrcamento(
+            @PathVariable String id) {
 
-	@GetMapping("/orcamento")
-	public ResponseEntity<List<Orcamentos>> getOrcamento() {
-		return ResponseEntity.ok(orcamentos);
-	}
+        try {
+            Orcamentos orcamento =
+                    orcamentosService.buscarPorId(id);
+
+            if (orcamento == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(orcamento);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> atualizarOrcamento(
+            @PathVariable String id,
+            @RequestBody Orcamentos orcamento) {
+
+        try {
+            orcamento.setId(id);
+            orcamentosService.salvar(orcamento);
+
+            return ResponseEntity.ok(
+                    "Orçamento atualizado com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body("Erro ao atualizar orçamento: " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirOrcamento(
+            @PathVariable String id) {
+
+        try {
+            orcamentosService.excluir(id);
+
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 }

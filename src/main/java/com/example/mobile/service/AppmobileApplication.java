@@ -1,4 +1,4 @@
-package com.example.mobile;
+package com.example.mobile.service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class AppmobileApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AppmobileApplication.class, args);
 	}
-
 }

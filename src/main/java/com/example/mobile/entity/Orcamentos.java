@@ -2,122 +2,105 @@ package com.example.mobile.entity;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "orcamentos")
 public class Orcamentos {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    private String id;
+    private String cliente_nome;
+    private LocalDateTime criado_em;
+    private String telefone;
+    private String moto;
+    private Integer validade;
+    private String observacoes;
+    private Double total;
+    private String status;
+    private String usuarioId;
 
-	@Column(nullable = false)
-	private String cliente_nome;
+    public Orcamentos() {
+        this.criado_em = LocalDateTime.now();
+    }
 
-	private LocalDateTime criado_em;
-	private String telefone;
-	private String moto;
-	private Integer validade;
-	private String observacoes;
-	private Integer total;
-	private String status;
+    public Orcamentos(String id, String cliente_nome, String telefone, String moto,
+            		Integer validade, String observacoes,Double total, String status,String usuarioId) {
 
-	@ManyToOne
-	@JoinColumn(name = "usuario_id")
-	private Usuarios usuario;
+        this.id = id;
+        this.cliente_nome = cliente_nome;
+        this.telefone = telefone;
+        this.moto = moto;
+        this.validade = validade;
+        this.observacoes = observacoes;
+        this.total = total;
+        this.status = status;
+        this.usuarioId = usuarioId;
+        this.criado_em = LocalDateTime.now();
+    }
 
-	public Orcamentos(Integer id, String cliente_nome, LocalDateTime criado_em,
-			String telefone, String moto, Integer validade,
-			String observacoes, Integer total, String status,
-			Usuarios usuario) {
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-		this.id = id;
-		this.cliente_nome = cliente_nome;
-		this.criado_em = criado_em;
-		this.telefone = telefone;
-		this.moto = moto;
-		this.validade = validade;
-		this.observacoes = observacoes;
-		this.total = total;
-		this.status = status;
-		this.usuario = usuario;
-	}
+    public String getCliente_nome() {
+        return cliente_nome;
+    }
+    public void setCliente_nome(String cliente_nome) {
+        this.cliente_nome = cliente_nome;
+    }
 
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public LocalDateTime getCriado_em() {
+        return criado_em;
+    }
+    public void setCriado_em(LocalDateTime criado_em) {
+        this.criado_em = criado_em;
+    }
 
-	public String getCliente_nome() {
-		return cliente_nome;
-	}
-	public void setCliente_nome(String cliente_nome) {
-		this.cliente_nome = cliente_nome;
-	}
+    public String getTelefone() {
+        return telefone;
+    }
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
 
-	public LocalDateTime getCriado_em() {
-		return criado_em;
-	}
-	public void setCriado_em(LocalDateTime criado_em) {
-		this.criado_em = criado_em;
-	}
+    public String getMoto() {
+        return moto;
+    }
+    public void setMoto(String moto) {
+        this.moto = moto;
+    }
 
-	public String getTelefone() {
-		return telefone;
-	}
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
+    public Integer getValidade() {
+        return validade;
+    }
+    public void setValidade(Integer validade) {
+        this.validade = validade;
+    }
 
-	public String getMoto() {
-		return moto;
-	}
-	public void setMoto(String moto) {
-		this.moto = moto;
-	}
+    public String getObservacoes() {
+        return observacoes;
+    }
+    public void setObservacoes(String observacoes) {
+        this.observacoes = observacoes;
+    }
 
-	public Integer getValidade() {
-		return validade;
-	}
-	public void setValidade(Integer validade) {
-		this.validade = validade;
-	}
+    public Double getTotal() {
+        return total;
+    }
+    public void setTotal(Double total) {
+        this.total = total;
+    }
 
-	public String getObservacoes() {
-		return observacoes;
-	}
-	public void setObservacoes(String observacoes) {
-		this.observacoes = observacoes;
-	}
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-	public Integer getTotal() {
-		return total;
-	}
-	public void setTotal(Integer total) {
-		this.total = total;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public Usuarios getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuarios usuario) {
-		this.usuario = usuario;
-	}
+    public String getUsuarioId() {
+        return usuarioId;
+    }
+    public void setUsuarioId(String usuarioId) {
+        this.usuarioId = usuarioId;
+    }
 }

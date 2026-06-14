@@ -1,60 +1,54 @@
 package com.example.mobile.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 
-@Entity
-@Table(name = "usuario")
 public class Usuarios {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer uid;
-	@Column(nullable = false)
-	private String nome;
-	@Column(nullable = false)
-	private String email;
-	@Column(nullable = false)
-	private String senha;
+    private String uid;
+    private String nome;
+    private String email;
+    private LocalDateTime criado_em;
 
-	public Usuarios() {
-	}
-	public Usuarios(Integer uid, String nome, String email, String senha) {
-		this.uid = uid;
-		this.nome = nome;
-		this.email = email;
-		this.senha = senha;
-	}
+    public Usuarios() {
+        this.criado_em = LocalDateTime.now();
+    }
 
-	public Integer getUid() {
-		return uid;
-	}
-	public void setUid(Integer uid) {
-		this.uid = uid;
-	}
+    public Usuarios(String uid, String nome, String email) {
+        this.uid = uid;
+        this.nome = nome;
+        this.email = email;
+        this.criado_em = LocalDateTime.now();
+    }
 
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public String getUid() {
+        return uid;
+    }
 
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 
-	public String getSenha() {
-		return senha;
-	}
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public LocalDateTime getCriado_em() {
+        return criado_em;
+    }
+
+    public void setCriado_em(LocalDateTime criado_em) {
+        this.criado_em = criado_em;
+    }
 }

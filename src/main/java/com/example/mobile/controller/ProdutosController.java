@@ -1,6 +1,5 @@
 package com.example.mobile.controller;
-import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -10,65 +9,95 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.mobile.entity.Produtos;
+import com.example.mobile.service.ProdutosService;
 
 @RestController
+@RequestMapping("/produtos")
 public class ProdutosController {
 
-    private final List<Produtos> produtos = new ArrayList<>();
+    private final ProdutosService produtosService;
 
-    @PostMapping("/produtos")
-    public ResponseEntity<String> criarProduto(@RequestBody Produtos produto) {
-        produtos.add(produto);
-        return ResponseEntity.status(201).body("Seu produto foi enviado com sucesso!");
+    public ProdutosController(ProdutosService produtosService) {
+        this.produtosService = produtosService;
     }
 
-    @GetMapping("/produtos")
-    public ResponseEntity<List<Produtos>> getProdutos() {
-        return ResponseEntity.ok(produtos);
+    @PostMapping
+    public ResponseEntity<String> criarProduto(
+            @RequestBody Produtos produto) {
+
+        try {
+            String id = produtosService.salvar(produto);
+
+            return ResponseEntity
+                    .status(201)
+                    .body("Produto criado com sucesso. ID: " + id);
+        } catch (Exception e) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body("Erro ao criar produto: " + e.getMessage());
+        }
     }
 
-    @PutMapping("/produtos/{id}")
+    @GetMapping
+    public ResponseEntity<List<Produtos>> listarProdutos() {
+
+        try {
+            return ResponseEntity.ok(
+                    produtosService.listarTodos());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Produtos> buscarProduto(
+            @PathVariable String id) {
+
+        try {
+            Produtos produto =
+                    produtosService.buscarPorId(id);
+
+            if (produto == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(produto);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/{id}")
     public ResponseEntity<String> atualizarProduto(
-            @PathVariable Integer id,
-            @RequestBody Produtos produtoAtualizado) {
+            @PathVariable String id,
+            @RequestBody Produtos produto) {
 
-        for (Produtos p : produtos) {
+        try {
+            produto.setId(id);
+            produtosService.salvar(produto);
 
-            if (p.getId().equals(id)) {
-
-                p.setNome(produtoAtualizado.getNome());
-                p.setDescricao(produtoAtualizado.getDescricao());
-                p.setCodigo(produtoAtualizado.getCodigo());
-                p.setCategoria(produtoAtualizado.getCategoria());
-                p.setMarca(produtoAtualizado.getMarca());
-                p.setModelo_moto(produtoAtualizado.getModelo_moto());
-                p.setLocalizacao(produtoAtualizado.getLocalizacao());
-                p.setPreco_custo(produtoAtualizado.getPreco_custo());
-                p.setPreco_venda(produtoAtualizado.getPreco_venda());
-                p.setEstoque_minimo(produtoAtualizado.getEstoque_minimo());
-
-                return ResponseEntity.ok("Produto atualizado com sucesso!");
-            }
+            return ResponseEntity.ok(
+                    "Produto atualizado com sucesso");
+        } catch (Exception e) {
+            return ResponseEntity
+                    .internalServerError()
+                    .body("Erro ao atualizar produto: " + e.getMessage());
         }
-
-        return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/produtos/{id}")
-    public ResponseEntity<Void> deleteProduto(@PathVariable Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluirProduto(
+            @PathVariable String id) {
 
-        Iterator<Produtos> iterator = produtos.iterator();
-        while (iterator.hasNext()) {
-            Produtos p = iterator.next();
+        try {
+            produtosService.excluir(id);
 
-            if (p.getId().equals(id)) {
-                iterator.remove();
-                return ResponseEntity.noContent().build();
-            }
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
-        return ResponseEntity.notFound().build();
     }
 }
