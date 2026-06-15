@@ -1,4 +1,4 @@
-package config;
+package com.example.mobile.config;;
 
 import java.io.IOException;
 
